@@ -147,6 +147,26 @@ The [TESTING.md](./TESTING.md) file includes detailed instructions for:
 
 For complete testing procedures, see **[TESTING.md](./TESTING.md)**.
 
+## 🗺️ Roadmap
+
+See our **[Product Roadmap](./ROADMAP.md)** for planned features and enhancements.
+
+### Coming Soon
+
+**Phase 1: Quick Wins**
+- 💾 Local Storage - Never lose your decisions
+- 📥 Import JSON - Restore previous decisions
+- 🌙 Dark Mode - Easy on the eyes
+- ⌨️ Keyboard Shortcuts - Power user features
+
+**Phase 2: Core Features**
+- ⚖️ Weighted Considerations - Not all factors are equal
+- 📋 Templates Library - Quick start for common decisions
+- 📝 Notes & Justifications - Context for your ratings
+- 📊 Matrix View - Alternative comparison layout
+
+See the full roadmap with Phase 3 features at **[ROADMAP.md](./ROADMAP.md)**.
+
 ## 🏗️ Architecture
 
 Built with modern web technologies and best practices:
