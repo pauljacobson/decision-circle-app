@@ -15,6 +15,9 @@ Transform Decision Circle from a simple comparison tool into a comprehensive dec
 ### Phase 1: Quick Wins
 **Focus:** High-impact features with low implementation complexity
 
+### Phase 1.5: Multi-Project Support
+**Focus:** Enable users to manage multiple independent decisions
+
 ### Phase 2: Core Features
 **Focus:** Features that significantly enhance decision-making capabilities
 
@@ -188,6 +191,186 @@ Implementation:
 - [ ] No conflicts with browser shortcuts
 - [ ] Shortcuts disabled when typing in text fields
 - [ ] Help modal lists all shortcuts
+
+---
+
+## 📂 Phase 1.5: Multi-Project Support
+
+**Status:** 🔵 Planned
+
+### 1.5.1 Multiple Decision Projects 📁 ⭐⭐⭐⭐⭐
+**Priority:** High
+**Complexity:** Medium
+**Impact:** High
+
+**Problem:** Users often need to compare different types of decisions simultaneously (job offers, apartments, investments) but can only work on one at a time.
+
+**Solution:**
+- Create and manage multiple independent decision projects
+- Switch between projects with dropdown menu
+- Each project auto-saves independently
+- Archive completed decisions
+- Duplicate projects for "what-if" scenarios
+- Project metadata tracking
+
+**Use Cases:**
+```
+User scenarios addressed:
+1. "I'm comparing job offers AND apartments"
+   → Separate projects for each decision type
+
+2. "I want to revisit this decision next week"
+   → Projects persist with last modified date
+
+3. "I want to try a what-if scenario"
+   → Duplicate project and experiment
+
+4. "I'm done with this decision"
+   → Archive completed projects
+```
+
+**UI Design:**
+```
+Header:
+┌─────────────────────────────────────────────┐
+│ Decision Circle   [Projects ▾]  [Export]    │
+├─────────────────────────────────────────────┤
+│ Current: Job Offers 2025          [Edit]    │
+│ Last saved: 2 minutes ago                    │
+└─────────────────────────────────────────────┘
+
+Projects Dropdown:
+┌───────────────────────────────────┐
+│ Your Projects                     │
+├───────────────────────────────────┤
+│ ✓ Job Offers 2025                │ ← Active
+│   3 opportunities • 2 hours ago   │
+├───────────────────────────────────┤
+│   Apartments Downtown             │
+│   2 opportunities • 1 day ago     │
+├───────────────────────────────────┤
+│   University Comparison           │
+│   3 opportunities • 1 week ago    │
+├───────────────────────────────────┤
+│ [+ New Project]                   │
+│ [📁 Archived (2)]                 │
+└───────────────────────────────────┘
+```
+
+**Data Structure:**
+```typescript
+interface Project {
+  id: string;                    // UUID
+  name: string;                  // "Job Offers 2025"
+  description?: string;          // Optional notes
+  createdAt: string;             // ISO timestamp
+  lastModified: string;          // ISO timestamp
+  wheels: Wheel[];               // The actual decision data
+  nextWheelId: number;
+  useNumberSelector: boolean;
+  tags?: string[];               // "job", "housing", etc.
+  isArchived: boolean;           // Hide completed decisions
+}
+
+interface AppState {
+  version: number;               // Schema version
+  activeProjectId: string;       // Which project is open
+  projects: Project[];           // All saved projects
+  lastSaved: string;
+}
+```
+
+**Features:**
+
+1. **Project Management**
+   - Create new project with name
+   - Rename existing project
+   - Delete project (with confirmation)
+   - Duplicate project
+   - Archive/unarchive projects
+
+2. **Project Switching**
+   - Dropdown menu in header
+   - Shows project name, # of opportunities, last modified
+   - Active project highlighted
+   - Instant switching (<100ms)
+   - Auto-saves before switching
+
+3. **Project Metadata**
+   - Creation date
+   - Last modified timestamp
+   - Number of opportunities
+   - Optional tags/categories
+   - Storage size indicator
+
+4. **Storage Management**
+   - All projects in single localStorage key
+   - Migration from single-project (Phase 1) to multi-project
+   - Per-project storage calculation
+   - Warning if approaching quota
+
+5. **Export/Import Integration**
+   - Export current project only
+   - Export all projects (ZIP)
+   - Import as new project
+   - Import and merge
+
+**Technical Implementation:**
+```typescript
+Storage:
+- Key: 'decision-circle-v2' (upgrade from v1)
+- Single key with all projects
+- Atomic saves prevent corruption
+- Migration path from Phase 1 schema
+
+Components:
+- ProjectSwitcher (dropdown menu)
+- ProjectManager (create/edit/delete modal)
+- ProjectMetadata (info display)
+
+Utilities:
+- Project CRUD operations
+- Active project management
+- Migration utilities
+```
+
+**Migration Strategy:**
+```typescript
+When upgrading from Phase 1 (single auto-save):
+1. Detect v1 schema
+2. Wrap existing data in default project:
+   - name: "My Decision"
+   - id: generated UUID
+   - createdAt: now
+   - wheels: existing wheels data
+3. Update to v2 schema
+4. Save migrated data
+5. Show success message
+```
+
+**Success Metrics:**
+- [ ] Can create and name multiple projects
+- [ ] Can switch between projects without data loss
+- [ ] Each project auto-saves independently
+- [ ] Can archive completed projects
+- [ ] Can duplicate projects
+- [ ] Migration from Phase 1 works seamlessly
+- [ ] Storage usage stays under 200KB for typical use (5 projects)
+- [ ] Project switching is instant (<100ms)
+
+**Storage Estimates:**
+```
+Single project: ~2-3KB
+5 projects: ~10-15KB
+10 projects: ~20-30KB
+localStorage limit: ~5-10MB (browser dependent)
+Conclusion: Very comfortable headroom
+```
+
+**Integration Points:**
+- Synergizes with Templates (Phase 2.2) - start new project from template
+- Synergizes with Import JSON (Phase 1.2) - import as new project
+- Foundation for future cloud sync
 
 ---
 
@@ -895,9 +1078,10 @@ Want to help implement a feature? Check out our [Contributing Guidelines](./CONT
 ## 📝 Changelog
 
 ### Planned
-- Phase 1: Quick Wins
-- Phase 2: Core Features
-- Phase 3: Polish & UX
+- Phase 1: Quick Wins (4 features)
+- Phase 1.5: Multi-Project Support (1 major feature)
+- Phase 2: Core Features (5 features)
+- Phase 3: Polish & UX (5 features)
 
 ### Completed
 - ✅ v1.0.0 - Initial release with TypeScript refactor and security hardening
