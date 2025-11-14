@@ -117,205 +117,35 @@ Average: 7.0/10
 Result: Tech Startup scores 0.6 points higher
 ```
 
-## 🧪 Testing Instructions
+## 🧪 Testing
 
-### Manual Testing Checklist
+Comprehensive testing documentation is available in **[TESTING.md](./TESTING.md)**.
 
-#### 1. **Basic Functionality**
+### Quick Start Testing
+
 ```bash
-# Start the dev server
+# Run development server
 npm run dev
-```
 
-- [ ] App loads without errors
-- [ ] Two default opportunities are displayed
-- [ ] Circular visualizations render correctly
-- [ ] Can add a third opportunity
-- [ ] Can remove an opportunity (when 3 exist)
-- [ ] Cannot remove when only 2 opportunities exist
-
-#### 2. **Input Validation & Security**
-
-Test each input field with these scenarios:
-
-**XSS Attack Prevention:**
-```html
-Try entering: <script>alert('XSS')</script>
-Expected: Text is sanitized, no script execution
-```
-
-**Event Handler Injection:**
-```html
-Try entering: onclick="alert('test')"
-Expected: Event handlers are stripped
-```
-
-**Long Input Handling:**
-```
-Try entering: A very long string with more than 50 characters to test length limits
-Expected: Input truncated to 50 characters
-```
-
-**Special Characters:**
-```
-Try entering: <>&"'/\
-Expected: Angle brackets removed, others allowed
-```
-
-#### 3. **Data Validation**
-
-**Numeric Values:**
-- [ ] Slider values stay between 0-10
-- [ ] Number buttons only allow 0-10
-- [ ] Invalid numbers are clamped to valid range
-
-**Color Picker:**
-- [ ] Color picker accepts valid hex colors
-- [ ] Invalid colors default to palette color
-
-#### 4. **User Interface**
-
-**Visual Consistency:**
-- [ ] Text fields have white background with dark text
-- [ ] Trash icons are positioned inside white bordered panels
-- [ ] Selected segments highlight in blue
-- [ ] Clicking wheel segments scrolls to inputs
-
-**Responsive Design:**
-- [ ] Test on desktop (1920x1080)
-- [ ] Test on tablet (768x1024)
-- [ ] Test on mobile (375x667)
-- [ ] All controls remain accessible
-
-#### 5. **Export Functionality**
-
-**JSON Export:**
-```bash
-# Click Export → JSON Data
-# Expected: Downloads decision-wheels-[timestamp].json
-# Open file and verify:
-```
-- [ ] Valid JSON structure
-- [ ] All wheel data present
-- [ ] Filename is sanitized
-
-**SVG Export:**
-```bash
-# Click Export → SVG Vector
-# Expected: Downloads decision-wheels-[timestamp].svg
-# Open file in browser and verify:
-```
-- [ ] All wheels render correctly
-- [ ] Comparison bars included
-- [ ] Colors match app
-- [ ] Text is readable
-
-#### 6. **State Management**
-
-**Data Persistence During Session:**
-- [ ] Add a new opportunity
-- [ ] Edit some values
-- [ ] Refresh the page
-- [ ] Note: Data does NOT persist (by design)
-
-**Copy Functionality:**
-- [ ] Click "Copy from [first wheel]" on second/third wheel
-- [ ] Consideration names are copied
-- [ ] Values reset to default (5)
-
-#### 7. **Error Handling**
-
-**Test Error Boundary:**
-```bash
-# Open browser console
-# Paste: throw new Error('Test error')
-# Expected: Error boundary catches it, shows friendly message
-```
-
-**Network Issues:**
-- [ ] Disconnect internet
-- [ ] Try to use app
-- [ ] Should work offline (no external dependencies)
-
-#### 8. **Accessibility Testing**
-
-**Keyboard Navigation:**
-- [ ] Tab through all controls
-- [ ] Focus indicators visible
-- [ ] Enter/Space activates buttons
-- [ ] Arrow keys work on sliders
-
-**Screen Reader Testing:**
-- [ ] All inputs have labels
-- [ ] ARIA labels present
-- [ ] Roles defined correctly
-
-#### 9. **Performance Testing**
-
-**Load Time:**
-```bash
-# Open DevTools → Network tab
-# Hard refresh (Cmd+Shift+R / Ctrl+Shift+R)
-# Check:
-```
-- [ ] Initial load < 2 seconds
-- [ ] Bundle size < 200KB gzipped
-- [ ] No console errors
-
-**Rendering Performance:**
-- [ ] Add multiple considerations (20+)
-- [ ] Drag sliders rapidly
-- [ ] Check for lag or freezing
-- [ ] Should remain responsive
-
-### Automated Testing
-
-#### Build Test
-```bash
-# Test TypeScript compilation and build
+# Test production build
 npm run build
 
-# Expected output:
-# ✓ vite build succeeds
-# ✓ No TypeScript errors
-# ✓ dist/ folder created
-```
-
-#### Linting Test
-```bash
-# Check code quality
+# Run linter
 npm run lint
-
-# Expected: No linting errors
 ```
 
-### Browser Compatibility Testing
+### Testing Categories
 
-Test in these browsers:
+The [TESTING.md](./TESTING.md) file includes detailed instructions for:
 
-- [ ] **Chrome** (latest)
-- [ ] **Firefox** (latest)
-- [ ] **Safari** (latest)
-- [ ] **Edge** (latest)
-- [ ] **Mobile Safari** (iOS)
-- [ ] **Chrome Mobile** (Android)
+1. **Manual Testing** - UI, functionality, and security testing
+2. **Automated Testing** - Build tests and linting
+3. **Browser Compatibility** - Cross-browser testing checklist
+4. **Security Testing** - XSS protection and input validation
+5. **Performance Testing** - Load time and runtime performance
+6. **Accessibility Testing** - Keyboard navigation and screen readers
 
-### Security Testing
-
-**Input Sanitization:**
-```javascript
-// Test in browser console:
-document.querySelector('input[type="text"]').value = '<script>alert("XSS")</script>';
-// Trigger onChange event
-// Expected: Script tags removed
-```
-
-**File Download Safety:**
-```bash
-# Try to export with malicious filename
-# Expected: Filename is sanitized
-# No directory traversal possible
-```
+For complete testing procedures, see **[TESTING.md](./TESTING.md)**.
 
 ## 🏗️ Architecture
 
